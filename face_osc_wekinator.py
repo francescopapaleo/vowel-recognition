@@ -5,7 +5,6 @@ By default, Wekinator listens for its input messages on port 6448. The default i
 /wek/inputs and each input must be sent as a float within this message. This router is intended
 for use with it'''
 
-import os
 from pythonosc.dispatcher import Dispatcher
 from pythonosc import osc_server
 from pythonosc import udp_client
