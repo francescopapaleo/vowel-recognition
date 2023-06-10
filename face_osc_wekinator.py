@@ -1,12 +1,14 @@
 '''
+FaceOSC Router for Wekinator
+------------------------
 By default, Wekinator listens for its input messages on port 6448. The default input message is 
 /wek/inputs and each input must be sent as a float within this message. This router is intended
 for use with it'''
 
+import os
 from pythonosc.dispatcher import Dispatcher
 from pythonosc import osc_server
 from pythonosc import udp_client
-
 
 new_message = {
     "/gesture/mouth/width": 0.0,
