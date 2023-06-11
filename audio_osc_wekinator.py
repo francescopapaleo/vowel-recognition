@@ -1,14 +1,19 @@
 import librosa
 import sounddevice as sd
-from pythonosc import udp_client
 import numpy as np
+
+from OutliersFilter import RealTimeAverageCalculator
+from pythonosc import udp_client
+
 
 if __name__ == "__main__":
 
-    print(librosa.__version__)
+    print(f"Librosa: {librosa.__version__}")
 
     sample_rate = 44100     
-    block_duration = 100     # In milliseconds
+    block_size = 11025
+    window_size = 10 
+    threshold = 3 
 
     # Initialize OSC client
     client = udp_client.SimpleUDPClient('127.0.0.1', 6448)
@@ -21,11 +26,13 @@ if __name__ == "__main__":
         frequencies = np.arctan2(np.imag(roots), np.real(roots)) \
         * (sample_rate / (2 * np.pi))                               # Convert LPC > frequency
         frequencies = np.sort(frequencies)                          # Sort frequencies in ascending order
+        if frequencies[0] == 0:
+            np.delete(frequencies, 0)
         return frequencies[0], frequencies[1], frequencies[2]       # Return the first 3, which are enough to identify the vowel
 
 
     def audio_callback(indata, frames, time, status):
-        volume_norm = np.linalg.norm(indata) * 10
+        # volume_norm = np.linalg.norm(indata) * 10
         if status:
             print(f"Status: {status}")
         
@@ -37,6 +44,21 @@ if __name__ == "__main__":
 
         # Process the current audio frame using librosa
         f1, f2, f3 = extract_formants(buffer, sample_rate)
+
+        # Filtering f1
+        f1_filtered = RealTimeAverageCalculator(window_size, threshold)
+        f1_filtered.add_data_point(f1)
+        f1 = f1_filtered.calculate_average()
+
+        # Filtering f2
+        f2_filtered = RealTimeAverageCalculator(window_size, threshold)
+        f2_filtered.add_data_point(f2)
+        f2 = f2_filtered.calculate_average()
+        
+        # Filtering f3
+        f3_filtered = RealTimeAverageCalculator(window_size, threshold)
+        f3_filtered.add_data_point(f3)
+        f3 = f3_filtered.calculate_average()
         
         formants = [float(f1), float(f2), float(f3)]
         client.send_message("/wek/inputs", formants)
@@ -51,7 +73,7 @@ if __name__ == "__main__":
                         channels=1, 
                         samplerate=sample_rate, 
                         device=0,
-                        blocksize=int(sample_rate * block_duration / 1000),
+                        blocksize=block_size,
                         ):
         print(f"Selected audio device: {input_device_name}")
         print("Audio stream started. Press Ctrl+C to stop.")
