@@ -6,6 +6,7 @@ import numpy as np
 print(librosa.__version__)
 
 sample_rate = 44100
+block_duration = 50  # In milliseconds
 
 # Initialize OSC client
 client = udp_client.SimpleUDPClient('127.0.0.1', 6448)
@@ -44,7 +45,12 @@ input_devices = sd.query_devices()
 input_device_name = input_devices[0]["name"]  # Access the first device in the tuple and retrieve the name
 
 # Start the audio stream and capture microphone input
-with sd.InputStream(callback=audio_callback, channels=1, samplerate=sample_rate, device=0):
+with sd.InputStream(callback=audio_callback, 
+                    channels=1, 
+                    samplerate=sample_rate, 
+                    device=0,
+                    blocksize=int(sample_rate * block_duration / 1000),
+                    ):
     print(f"Selected audio device: {input_device_name}")
     print("Audio stream started. Press Ctrl+C to stop.")
     try:
