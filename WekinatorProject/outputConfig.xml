@@ -9,8 +9,8 @@
       <min>0.0</min>
       <max>1.0</max>
       <outputType>REAL</outputType>
-      <limitType>SOFT</limitType>
-      <trainingDataLimitRestriction>DONT_ENFORCE_LIMITS</trainingDataLimitRestriction>
+      <limitType>HARD</limitType>
+      <trainingDataLimitRestriction>ENFORCE_LIMITS</trainingDataLimitRestriction>
       <trainingDataIntegerRestriction>DONT_ENFORCE_INTEGER</trainingDataIntegerRestriction>
     </wekimini.osc.OSCNumericOutput>
     <wekimini.osc.OSCNumericOutput>
@@ -18,8 +18,8 @@
       <min>0.0</min>
       <max>1.0</max>
       <outputType>REAL</outputType>
-      <limitType>SOFT</limitType>
-      <trainingDataLimitRestriction>DONT_ENFORCE_LIMITS</trainingDataLimitRestriction>
+      <limitType>HARD</limitType>
+      <trainingDataLimitRestriction>ENFORCE_LIMITS</trainingDataLimitRestriction>
       <trainingDataIntegerRestriction>DONT_ENFORCE_INTEGER</trainingDataIntegerRestriction>
     </wekimini.osc.OSCNumericOutput>
     <wekimini.osc.OSCNumericOutput>
@@ -27,8 +27,8 @@
       <min>0.0</min>
       <max>1.0</max>
       <outputType>REAL</outputType>
-      <limitType>SOFT</limitType>
-      <trainingDataLimitRestriction>DONT_ENFORCE_LIMITS</trainingDataLimitRestriction>
+      <limitType>HARD</limitType>
+      <trainingDataLimitRestriction>ENFORCE_LIMITS</trainingDataLimitRestriction>
       <trainingDataIntegerRestriction>DONT_ENFORCE_INTEGER</trainingDataIntegerRestriction>
     </wekimini.osc.OSCNumericOutput>
     <wekimini.osc.OSCNumericOutput>
@@ -36,8 +36,8 @@
       <min>0.0</min>
       <max>1.0</max>
       <outputType>REAL</outputType>
-      <limitType>SOFT</limitType>
-      <trainingDataLimitRestriction>DONT_ENFORCE_LIMITS</trainingDataLimitRestriction>
+      <limitType>HARD</limitType>
+      <trainingDataLimitRestriction>ENFORCE_LIMITS</trainingDataLimitRestriction>
       <trainingDataIntegerRestriction>DONT_ENFORCE_INTEGER</trainingDataIntegerRestriction>
     </wekimini.osc.OSCNumericOutput>
     <wekimini.osc.OSCNumericOutput>
@@ -45,8 +45,8 @@
       <min>0.0</min>
       <max>1.0</max>
       <outputType>REAL</outputType>
-      <limitType>SOFT</limitType>
-      <trainingDataLimitRestriction>DONT_ENFORCE_LIMITS</trainingDataLimitRestriction>
+      <limitType>HARD</limitType>
+      <trainingDataLimitRestriction>ENFORCE_LIMITS</trainingDataLimitRestriction>
       <trainingDataIntegerRestriction>DONT_ENFORCE_INTEGER</trainingDataIntegerRestriction>
     </wekimini.osc.OSCNumericOutput>
   </outputs>

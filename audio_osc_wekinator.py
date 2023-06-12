@@ -1,64 +1,47 @@
-import librosa
 import sounddevice as sd
 import numpy as np
+from scipy.signal import filtfilt
 
-from OutliersFilter import RealTimeAverageCalculator
+from processing import Filter, extract_formants, butter_highpass, butter_lowpass
 from pythonosc import udp_client
-
 
 if __name__ == "__main__":
 
-    print(f"Librosa: {librosa.__version__}")
-
     sample_rate = 44100     
     block_size = 11025
-    window_size = 10 
-    threshold = 3 
+    window_size = 512
+    threshold = 4
 
     # Initialize OSC client
     client = udp_client.SimpleUDPClient('127.0.0.1', 6448)
-
-
-    def extract_formants(audio, sample_rate):
-        formants = librosa.lpc(audio, order=10)                     # LPC to get LPF coefs
-        roots = np.roots(formants) 
-        roots = roots[np.imag(roots) >= 0]                          # Only take roots in the upper half-plane
-        frequencies = np.arctan2(np.imag(roots), np.real(roots)) \
-        * (sample_rate / (2 * np.pi))                               # Convert LPC > frequency
-        frequencies = np.sort(frequencies)                          # Sort frequencies in ascending order
-        if frequencies[0] == 0:
-            np.delete(frequencies, 0)
-        return frequencies[0], frequencies[1], frequencies[2]       # Return the first 3, which are enough to identify the vowel
-
 
     def audio_callback(indata, frames, time, status):
         # volume_norm = np.linalg.norm(indata) * 10
         if status:
             print(f"Status: {status}")
-        
+    
         if any(indata):
             # Convert the incoming audio to a NumPy array
             buffer = np.squeeze(indata)
+            buffer_highpass = filtfilt(*butter_highpass(100, sample_rate), buffer)
+            buffer_lowpass = filtfilt(*butter_lowpass(8000, sample_rate), buffer)
         else:
             print("No input data")
 
         # Process the current audio frame using librosa
-        f1, f2, f3 = extract_formants(buffer, sample_rate)
+        f1, f2, f3 = extract_formants(buffer_lowpass, sample_rate)
 
-        # Filtering f1
-        f1_filtered = RealTimeAverageCalculator(window_size, threshold)
-        f1_filtered.add_data_point(f1)
-        f1 = f1_filtered.calculate_average()
+        f1_filter = Filter(window_size, threshold)
+        f2_filter = Filter(window_size, threshold)
+        f3_filter = Filter(window_size, threshold)
 
-        # Filtering f2
-        f2_filtered = RealTimeAverageCalculator(window_size, threshold)
-        f2_filtered.add_data_point(f2)
-        f2 = f2_filtered.calculate_average()
+        f1_filter.add_data_point(f1)
+        f3_filter.add_data_point(f3)
+        f2_filter.add_data_point(f2)
         
-        # Filtering f3
-        f3_filtered = RealTimeAverageCalculator(window_size, threshold)
-        f3_filtered.add_data_point(f3)
-        f3 = f3_filtered.calculate_average()
+        f2 = f2_filter.calculate_average()
+        f1 = f1_filter.calculate_average()
+        f3 = f3_filter.calculate_average()
         
         formants = [float(f1), float(f2), float(f3)]
         client.send_message("/wek/inputs", formants)
