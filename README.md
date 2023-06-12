@@ -1,6 +1,7 @@
 # Vowel recognition system based on mouth gesture and sound
 
-Group Project for the Sound Communication class of the Sound and Music Coputing Master at the Music Technology Group, Universitat Pompeu Fabra, Barcelona.
+**Group Project for the Sound Communication class 2022-2023**
+Master in Sound and Music Computing - Universitat Pompeu Fabra, Barcelona
 
 ## Description
 
@@ -28,7 +29,7 @@ audio feature extraction (Python?)                            mouth gesture extr
 
 The purpose of this project is to create a working infra-structure that could support language teaching applications.
 
-7 possible vowels sounds are considered: /a/, /e/, /i/, /o/, /u/, /y/, /ø/.
+For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /i/, /o/, /u/
 
 ## Run this code
 
