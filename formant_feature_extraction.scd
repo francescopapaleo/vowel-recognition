@@ -1,4 +1,3 @@
-s.boot
 
 (
 ~vowelA = [1620, 780]; // A
@@ -40,20 +39,26 @@ SynthDef(\vowels, {|filterReson = 0.05, f1 = 1620, f2 = 780, sourceFreq = 70, am
 	var aFilter, eFilter, iFilter, oFilter, uFilter,
 	output, input,
 	rmsA, rmsE, rmsI, rmsO, rmsU,
-	chain, magnitudeAbove, localMax, loudnessTracker, triggerInterval;
+	chain1, chain2, magnitudeAbove, localMax, loudnessTracker, triggerInterval, detect, gate;
 
+	//input = BPF.ar(Saw.ar(sourceFreq), f1, 1.0) + BPF.ar(Saw.ar(sourceFreq), f2, 1.0);
 	//input = PinkNoise.ar(0.1);
 	input = SoundIn.ar(0);
-	//input = BPF.ar(Saw.ar(sourceFreq), f1, 1.0) + BPF.ar(Saw.ar(sourceFreq), f2, 1.0);
 
+
+	// GATE PART
+	chain1 = FFT(LocalBuf(2048), input);
+	loudnessTracker = Loudness.kr(chain1); // If loudness > 20 gate aperto
+	loudnessTracker = (loudnessTracker - 15); // -15 Threshold
+	gate = Select.kr(loudnessTracker > DC.kr(0.0), [DC.ar(0.0), DC.ar(1.0)]);
+	input = input * gate;
+
+	// AMPLITUDE NORMALISATION AND SPECTRAL LOCAL MAX FILTERING
 	input = Normalizer.ar(input); // Amplitude normalization
 	input = HPF.ar(input, 100); // Don't consider vowels under 100
 	input = LPF.ar(input, 3000); // Don't consider vowels over 3000
-
-
-	chain = FFT(LocalBuf(2048), input);
-    //magnitudeAbove = PV_MagAbove(chain, 300); // Alternative
-	localMax = PV_LocalMax(chain, 30); // Try 0-50.0
+	chain2 = FFT(LocalBuf(2048), input);
+	localMax = PV_LocalMax(chain2, 30); // Try 0-50.0
 	input = IFFT(localMax);
 
 
@@ -82,13 +87,6 @@ SynthDef(\vowels, {|filterReson = 0.05, f1 = 1620, f2 = 780, sourceFreq = 70, am
 
 	triggerInterval = s.options.blockSize; // Interval to send OSC messages
 	//triggerInterval = 1; // Interval to send OSC messages
-
-	//rmsA = DC.ar(0);
-	//rmsE = DC.ar(1);
-	//rmsI = DC.ar(2);
-	//rmsO = DC.ar(3);
-	//rmsU = DC.ar(4);
-
 
 	SendTrig.ar(Impulse.ar(triggerInterval), 0, rmsA);
 	SendTrig.ar(Impulse.ar(triggerInterval), 1, rmsE);

@@ -1,7 +1,10 @@
 # Real Time Vowel Recognition System
 
-**Group Project for the Sound Communication class 2022-2023**
-Master in Sound and Music Computing - Universitat Pompeu Fabra, Barcelona
+***Authors: Francesco Papaleo, Tommaso Settimi, Chris Morse***
+
+Sound Communication - Master in Sound and Music Computing
+
+Universitat Pompeu Fabra, Barcelona
 
 ## Description
 
@@ -42,7 +45,7 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
     ```bash
     pip3 install -r requirements.txt
 
-    python3 audio_osc_wekinator.py
+    python3 main.py
     ```
 
 1. open Wekinator > File > Open > [project file](./WekinatorProject/WekinatorProject.wekproj)

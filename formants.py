@@ -12,7 +12,7 @@ from parselmouth.praat import call
 def detect_formants(sound_data, sample_rate, f0min, f0max):
     sound_data = sound_data.astype('float64')
     sound = parselmouth.Sound(sound_data, sampling_frequency = sample_rate)
-    sound.scale_peak(0.90)
+    sound.scale_peak(0.99)
 
     pointProcess = call(sound, "To PointProcess (periodic, cc)", f0min, f0max)
 

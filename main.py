@@ -14,7 +14,7 @@ new_message = {
     # Add here other gestures you want to send to Wekinator
 }
 sample_rate = 44100     
-block_size = 4096
+chunk_size = 1024
 
 ip = "127.0.0.1"            # Wekinator's IP address  
 receiving_from = 8338       # Port to receive messages from
@@ -27,9 +27,9 @@ def audio_processing():
 
     print("Audio stream started. Press Ctrl+C to stop.")
     try:
-        with sr.Microphone(sample_rate=sample_rate, chunk_size=block_size) as source:
+        with sr.Microphone(sample_rate=sample_rate, chunk_size=chunk_size) as source:
             while not stop_event.is_set():
-                audio_data = r.record(source, duration=block_size / sample_rate)
+                audio_data = r.record(source, duration=chunk_size / sample_rate)
                 indata = np.frombuffer(audio_data.get_raw_data(), dtype=np.int16)
 
                 if any(indata):             # and rms_dbfs > gate_threshold_dbfs:
