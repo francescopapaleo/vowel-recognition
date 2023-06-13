@@ -1,34 +1,41 @@
 import pyaudio
-import speech_recognition as sr
 import numpy as np
 from threading import Thread, Event
 
 from formants import detect_formants
 from pythonosc import udp_client, osc_server, dispatcher as osc_dispatcher
 
-# Initialize global variables for audio and video features
+IP_ADDRESS = "127.0.0.1"
+SENDING_TO = 6448
+RECEIVING_FROM = 8338
+
+FS = 48000
+CHANNELS = 1
+CHUNKSIZE = 4096
+
 formants = [0.0, 0.0]
+
 new_message = {
     "/gesture/mouth/width": 0.0,
     "/gesture/mouth/height": 0.0,
-    # Add here other gestures you want to send to Wekinator
+    "/gesture/eyebrow/left": 0.0,
+    "/gesture/eyebrow/right": 0.0,
+    "/gesture/eye/left": 0.0,
+    "/gesture/eye/right": 0.0,
+    "/gesture/jaw": 0.0,
+    "/gesture/nostrils": 0.0,
 }
-sample_rate = 44100     
-chunk_size = 128
-
-ip = "127.0.0.1"            # Wekinator's IP address  
-receiving_from = 8338       # Port to receive messages from
 
 stop_event = Event()  # This event will be set when the program is interrupted
 
-def audio_processing():
-    global formants
-    r = sr.Recognizer()
+p = pyaudio.PyAudio()
 
-    print("Audio stream started. Press Ctrl+C to stop.")
-    try:
-        with sr.Microphone(sample_rate=sample_rate, chunk_size=chunk_size) as source:
-            while not stop_event.is_set():
+
+
+
+
+    
+    
                 audio_data = r.record(source, duration=chunk_size / sample_rate)
                 indata = np.frombuffer(audio_data.get_raw_data(), dtype=np.int16)
 

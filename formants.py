@@ -11,9 +11,7 @@ import parselmouth
 from parselmouth.praat import call
 
 def detect_formants(buffer, sample_rate, frames_per_buffer, f0min, f0max) -> List:
-    
-    buffer_float64 = buffer.astype(np.float64)
-    sound = parselmouth.Sound(buffer_float64, sampling_frequency=sample_rate)
+    sound = parselmouth.Sound(buffer, sampling_frequency=sample_rate)
 
     intensity = call(sound, "To Intensity", f0min, 0, "yes")
     loudness = call(intensity, "Get mean", 0, 0)
