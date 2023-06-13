@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     except KeyboardInterrupt:
         print("\nServer has been stopped by the user.")
+        server.server_close()
         
-        # Optionally add any cleanup here
 
 

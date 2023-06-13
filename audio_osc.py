@@ -8,38 +8,39 @@ from pythonosc import udp_client
 from formants import detect_formants
 from matplotlib.animation import FuncAnimation
 
-
 if __name__ == "__main__":
+    # OSC settings
+    ip_address = "127.0.0.1"
+    port = 6448
 
-    sample_rate = 44100     
-    frames_per_buffer = 1024
+    sample_rate = 48000
+    frames_per_buffer = 4096
+    f0min = 150
+    f0max = 5000
 
     # Initialize OSC client 
-    client = udp_client.SimpleUDPClient('127.0.0.1', 6448)
+    client = udp_client.SimpleUDPClient(ip_address, port)
 
-    mic = pyaudio.PyAudio()
+    audio = pyaudio.PyAudio()
 
-    audio_input = mic.open(format=pyaudio.paInt16, 
+    audio_input = audio.open(format=pyaudio.paInt16, 
                 channels=1, 
-                rate=44100, 
+                rate=sample_rate, 
                 input=True, 
                 frames_per_buffer=frames_per_buffer)
 
     try:
-    
         while True:
             buffer = np.frombuffer(audio_input.read(frames_per_buffer), dtype=np.int16)
             
             formants = detect_formants(
-                buffer, sample_rate, frames_per_buffer, f0min=150, f0max=500)
-
-            formants = [val if not np.isnan(val) else 0.0 for val in formants]
-    
+                buffer, sample_rate, frames_per_buffer, f0min, f0max)
+            print(f"Sending OSC messages to {ip_address}:{port} with values: {formants}", end='\r')
             client.send_message("/wek/inputs", formants)
             
     except KeyboardInterrupt:
         print("Program stopped.")
-    audio_input.stop_stream()
-    audio_input.close()
-    mic.terminate()
-
+    finally:
+        audio_input.stop_stream()
+        audio_input.close()
+        audio.terminate()
