@@ -1,4 +1,4 @@
-# Real Time Vowel Recognition System
+# Real-Time Audio/Video Vowel Recognition System
 
 ***Authors: Francesco Papaleo, Tommaso Settimi, Chris Morse***
 

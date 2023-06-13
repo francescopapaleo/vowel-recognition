@@ -12,16 +12,15 @@ from parselmouth.praat import call
 def detect_formants(sound_data, sample_rate, f0min, f0max):
     sound_data = sound_data.astype('float64')
     sound = parselmouth.Sound(sound_data, sampling_frequency = sample_rate)
-    sound.scale_peak(0.99)
 
     pointProcess = call(sound, "To PointProcess (periodic, cc)", f0min, f0max)
-
+    
     formants = call(sound, "To Formant (burg)", 0.0025, 5, 5000, 0.025, 50)
     numPoints = call(pointProcess, "Get number of points")
-
+    
     f1_list = []
     f2_list = []
-
+    
     for point in range(0, numPoints):
         point += 1
         t = call(pointProcess, "Get time from index", point)
@@ -33,11 +32,11 @@ def detect_formants(sound_data, sample_rate, f0min, f0max):
     f1_list = [f1 for f1 in f1_list if str(f1) != 'nan']
     f2_list = [f2 for f2 in f2_list if str(f2) != 'nan']
 
-    # calculate mean and median formants across pulses
-    f1_mean = statistics.mean(f1_list) if f1_list else 0
-    f2_mean = statistics.mean(f2_list) if f2_list else 0 
+    # # calculate mean and median formants across pulses
+    f1_mean = statistics.mean(f1_list)
+    f2_mean = statistics.mean(f2_list)
 
-    f1_median = statistics.median(f1_list) if f1_list else 0
-    f2_median = statistics.median(f2_list) if f2_list else 0
+    f1_median = statistics.median(f1_list)
+    f2_median = statistics.median(f2_list)
 
     return f1_mean, f2_mean, f1_median, f2_median

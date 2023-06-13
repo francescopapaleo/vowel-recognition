@@ -14,7 +14,7 @@ new_message = {
     # Add here other gestures you want to send to Wekinator
 }
 sample_rate = 44100     
-chunk_size = 1024
+chunk_size = 128
 
 ip = "127.0.0.1"            # Wekinator's IP address  
 receiving_from = 8338       # Port to receive messages from
@@ -36,11 +36,13 @@ def audio_processing():
                     buffer = indata.ravel()
 
                     # Add a small constant to the audio data to prevent division by zero
-                    buffer = buffer + 1e-10
+                    # buffer = buffer + 1e-10
 
                     f1_mean, f2_mean, f1_median, f2_median = detect_formants(
-                        buffer, sample_rate, f0min=200, f0max=3000)
-                    formants = [float(f1_mean), float(f2_mean)]
+                        buffer, sample_rate, f0min=100, f0max=3000)
+                    f1 = f1_mean
+                    f2 = f2_mean
+                    formants = [float(f1), float(f2)]
                 else:
                     print('no input')
     except KeyboardInterrupt:
