@@ -13,9 +13,9 @@ from parselmouth.praat import call
 def detect_formants(buffer, sample_rate, frames_per_buffer, f0min, f0max) -> List:
     sound = parselmouth.Sound(buffer, sampling_frequency=sample_rate)
 
-    intensity = call(sound, "To Intensity", f0min, 0, "yes")
+    intensity = call(sound, "To Intensity", f0min, 0.0, True)
     loudness = call(intensity, "Get mean", 0, 0)
-    loudness = loudness if np.isfinite(loudness) else 0.0  # Check if loudness is finite
+    loudness = loudness.DB
     
     pointProcess = call(sound, "To PointProcess (periodic, cc)", f0min, f0max)
     

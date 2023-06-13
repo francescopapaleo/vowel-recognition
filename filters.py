@@ -1,3 +1,5 @@
+# Simple implementatio of highpass and lowpass filters
+
 from scipy.signal import butter
 
 def butter_highpass(cutoff, fs, order=5):
