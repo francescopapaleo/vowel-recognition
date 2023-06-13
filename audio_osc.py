@@ -1,43 +1,45 @@
 # audio-osc.py
 
-import speech_recognition as sr
+import pyaudio
 import numpy as np
+import matplotlib.pyplot as plt
+
 from pythonosc import udp_client
 from formants import detect_formants
+from matplotlib.animation import FuncAnimation
+
 
 if __name__ == "__main__":
-    sample_rate = 44100     
-    chunk = 4096
 
-    # Initialize OSC client
+    sample_rate = 44100     
+    frames_per_buffer = 1024
+
+    # Initialize OSC client 
     client = udp_client.SimpleUDPClient('127.0.0.1', 6448)
 
-    # Initialize a recognizer object
-    r = sr.Recognizer()
+    mic = pyaudio.PyAudio()
 
-    # Open the microphone stream
-    with sr.Microphone(sample_rate=sample_rate, chunk_size=chunk) as source:
+    audio_input = mic.open(format=pyaudio.paInt16, 
+                channels=1, 
+                rate=44100, 
+                input=True, 
+                frames_per_buffer=frames_per_buffer)
+
+    try:
+    
         while True:
-            try:
-                # Read the chunk of audio data from the microphone
-                audio = r.record(source, duration=chunk / sample_rate)
+            buffer = np.frombuffer(audio_input.read(frames_per_buffer), dtype=np.int16)
+            
+            formants = detect_formants(
+                buffer, sample_rate, frames_per_buffer, f0min=150, f0max=500)
 
-                # Convert the audio to a numpy array
-                audio_data = np.frombuffer(audio.frame_data, np.int16)
-
-                # Add a small constant to the audio data to prevent division by zero
-                audio_data = audio_data + 1e-10
-
-                f1, f2, _, _ = detect_formants(audio_data, sample_rate, f0min=200, f0max=3000)
-
-                formants = [float(f1), float(f2)]
-                
-                # Check if valid formants were returned before sending them to Wekinator
-                client.send_message("/wek/inputs", formants)
-                
-            except KeyboardInterrupt:
-                print("Program stopped.")
-                
-            except Exception as e:
-                print(f"Exception: {e}")
+            formants = [val if not np.isnan(val) else 0.0 for val in formants]
+    
+            client.send_message("/wek/inputs", formants)
+            
+    except KeyboardInterrupt:
+        print("Program stopped.")
+    audio_input.stop_stream()
+    audio_input.close()
+    mic.terminate()
 

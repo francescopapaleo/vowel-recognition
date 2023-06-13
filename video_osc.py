@@ -12,16 +12,20 @@ from pythonosc import udp_client
 new_message = {
     "/gesture/mouth/width": 0.0,
     "/gesture/mouth/height": 0.0,
-    # Add here other gestures you want to send to Wekinator
+    "/gesture/eyebrow/left": 0.0,
+    "/gesture/eyebrow/right": 0.0,
+    "/gesture/eye/left": 0.0,
+    "/gesture/eye/right": 0.0,
+    "/gesture/jaw": 0.0,
+    "/gesture/nostrils": 0.0,
 }
 
 wekinator_address = "/wek/inputs"
 
 def package_gesture(address, data):
-    print(f'{address}: {data}')
     new_message[address] = data
     message = list(new_message.values())
-    print(f'Sending message to Wekinator: {message}')  # Add this line for debugging
+    # print(f'Sending message to Wekinator: {message}')
     client.send_message(wekinator_address, message)
 
 def raw_handler(unused_addr, *args):
@@ -38,11 +42,15 @@ if __name__ == '__main__':
     print("Sending to {} on port {}".format(ip, sending_to))
     
     dispatcher = Dispatcher()
+    
     dispatcher.map('/gesture/mouth/width', package_gesture)
     dispatcher.map('/gesture/mouth/height', package_gesture)
-    
-    # Map other gestures here like the two above
-
+    dispatcher.map('/gesture/eyebrow/left', package_gesture)
+    dispatcher.map('/gesture/eyebrow/right', package_gesture)
+    dispatcher.map('/gesture/eye/left', package_gesture)
+    dispatcher.map('/gesture/eye/right', package_gesture)
+    dispatcher.map('/gesture/jaw', package_gesture)
+    dispatcher.map('/gesture/nostrils', package_gesture)
 
     dispatcher.map("/raw", raw_handler)
 
