@@ -18,7 +18,7 @@ if __name__ == '__main__':
     p = pyaudio.PyAudio()
 
     FORMAT = pyaudio.paInt16        # 16-bit resolution
-    FS = 48000                      # Sampling rate
+    FS = 16000                      # Sampling rate
     CHANNELS = 1                    # 1 channel
     CHUNK = 2**12                   # 2**12 samples for buffer
 
@@ -47,11 +47,11 @@ if __name__ == '__main__':
         while len(np_buffer) > 0:
             stream.start_stream()
             
-            formants = extract_audio_features(np_buffer, FS, CHUNK, f0min, f0max)
+            audio_features = extract_audio_features(np_buffer, FS, CHUNK, f0min, f0max)
             
-            client.send_message(WEK_INPUT, formants)
+            client.send_message(WEK_INPUT, audio_features)
             
-            print(f"{formants}", end="\r")
+            print(f"{str(audio_features):<80}", end="\r")
 
     except KeyboardInterrupt:
         print("\nServer has been stopped by the user.")

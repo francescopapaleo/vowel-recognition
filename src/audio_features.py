@@ -7,7 +7,9 @@ import parselmouth
 from parselmouth.praat import call
 
 def extract_audio_features(buffer, sample_rate, frames_per_buffer, f0min, f0max) -> List[float]: 
+    
     sound = parselmouth.Sound(buffer, sampling_frequency=sample_rate)
+    
     formants = sound.to_formant_burg(time_step=frames_per_buffer, max_number_of_formants=4)
     
     pointProcess = call(sound, "To PointProcess (periodic, cc)", f0min, f0max)
@@ -15,9 +17,7 @@ def extract_audio_features(buffer, sample_rate, frames_per_buffer, f0min, f0max)
         
     intensity = sound.to_intensity()
     loudness = intensity.get_average(intensity.end_time,intensity.start_time,'DB')
-
-    pre_emphasis = 0.97
-    sound = sound.pre_emphasize(from_frequency=pre_emphasis)
+    
 
     f1_list = []
     f2_list = []
@@ -43,9 +43,9 @@ def extract_audio_features(buffer, sample_rate, frames_per_buffer, f0min, f0max)
     f3_mean = np.mean(f3_list) if f3_list else 0.0
     f4_mean = np.mean(f4_list) if f4_list else 0.0
 
-    audio_feautures = [float(f1_mean), float(f2_mean), float(f3_mean), float(f4_mean), float(loudness)]
-    # audio_feautures = np.nan_to_num(audio_feautures)
-    return audio_feautures
+    audio_features = [float(f"{f1_mean:.9f}"), float(f"{f2_mean:.9f}"), float(f"{f3_mean:.9f}"), float(f"{f4_mean:.9f}"), float(f"{loudness:.9f}")]
+
+    return audio_features
 
 
 """ 

@@ -29,12 +29,12 @@ audio_features = [0.0, 0.0, 0.0, 0.0, 0.0]
 new_message = {
     "/gesture/mouth/width": 0.0,
     "/gesture/mouth/height": 0.0,
-    "/gesture/eyebrow/left": 0.0,
-    "/gesture/eyebrow/right": 0.0,
-    "/gesture/eye/left": 0.0,
-    "/gesture/eye/right": 0.0,
-    "/gesture/jaw": 0.0,
-    "/gesture/nostrils": 0.0,
+    # "/gesture/eyebrow/left": 0.0,
+    # "/gesture/eyebrow/right": 0.0,
+    # "/gesture/eye/left": 0.0,
+    # "/gesture/eye/right": 0.0,
+    # "/gesture/jaw": 0.0,
+    # "/gesture/nostrils": 0.0,
 }
 
 stop_event = Event()
@@ -64,14 +64,27 @@ def audio_processing():
         input_device_index=0,
         stream_callback=callback
         )
+    
+    device_info = p.get_device_info_by_index(0)
+
+    device_info_strs = [f"{key}: {value}" for key, value in device_info.items()]
+    device_info_str = "\n".join(device_info_strs)
+
+    stream_info_str = (
+        f"\nPyAudio Stream settings:"
+        f"\nSampling Frequency: {stream._rate} Hz"
+        f"\nChunk Size: {stream._frames_per_buffer} samples"
+        f"\nAudio Buffer Size: {stream._frames_per_buffer} samples"
+        f"\nNumber of Channels: {stream._channels}"
+    )
+    
+    print(f" \n {device_info_str}\n{stream_info_str}")
 
     stream.start_stream()
-
     print("Audio stream started. Press Ctrl+C to stop.")
 
     while not stop_event.is_set():
         time.sleep(1)
-
 
     stream.stop_stream()
     stream.close()
@@ -96,7 +109,7 @@ server.handle_request()
 def video_processing():
     try:
         while len(new_message) > 0:
-            print("Video stream started. Press Ctrl+C to stop.")
+            print(f"\n Video stream started. Press Ctrl+C to stop.")
             
             # In the OSC message handlers, update the global variable
             def package_gesture(address, data):
@@ -106,12 +119,12 @@ def video_processing():
             dispatcher = osc_dispatcher.Dispatcher()
             dispatcher.map('/gesture/mouth/width', package_gesture)
             dispatcher.map('/gesture/mouth/height', package_gesture)
-            dispatcher.map('/gesture/eyebrow/left', package_gesture)
-            dispatcher.map('/gesture/eyebrow/right', package_gesture)
-            dispatcher.map('/gesture/eye/left', package_gesture)
-            dispatcher.map('/gesture/eye/right', package_gesture)
-            dispatcher.map('/gesture/jaw', package_gesture)
-            dispatcher.map('/gesture/nostrils', package_gesture)
+            # dispatcher.map('/gesture/eyebrow/left', package_gesture)
+            # dispatcher.map('/gesture/eyebrow/right', package_gesture)
+            # dispatcher.map('/gesture/eye/left', package_gesture)
+            # dispatcher.map('/gesture/eye/right', package_gesture)
+            # dispatcher.map('/gesture/jaw', package_gesture)
+            # dispatcher.map('/gesture/nostrils', package_gesture)
             
             server = osc_server.ThreadingOSCUDPServer((LOCALHOST_IP, LOCAL_VIDEO_PORT), dispatcher)
             server.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -136,6 +149,7 @@ def main():
             # Combine formants and video features into one list
             # /wek/inputs [f1, f2, f3, mouth_width, mouth_height]
             
+            audio_features = [value for value in audio_features]
             video_features = [value for value in new_message.values()]
             message = []
             message.extend(audio_features)

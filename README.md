@@ -53,3 +53,22 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
 1. open Wekinator > File > Open > [project file](./AudioVideoClassifier/Classifier13in5out.wekproj)
 
 1. run the pre-trained model
+
+## Folder Structure
+
+```tree
+    .
+    ├── AudioVideoClassifier
+    │   ├── current
+    │   │   └── models
+    │   └── saved
+    ├── SuperCollider
+    │   └── Classifier4in5out
+    │       ├── current
+    │       │   └── models
+    │       └── saved
+    ├── __pycache__
+    ├── assets
+    └── src
+        └── __pycache__
+```
