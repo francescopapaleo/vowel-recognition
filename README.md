@@ -45,9 +45,11 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
     ```bash
     pip3 install -r requirements.txt
 
+    cd src
+
     python3 main.py
     ```
 
-1. open Wekinator > File > Open > [project file](./WekinatorProject/WekinatorProject.wekproj)
+1. open Wekinator > File > Open > [project file](./AudioVideoClassifier/Classifier13in5out.wekproj)
 
-1. run the pre-trained mode
+1. run the pre-trained model
