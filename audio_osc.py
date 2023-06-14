@@ -4,16 +4,16 @@ import pyaudio
 import numpy as np
 from pythonosc import udp_client
 
-from formants import detect_formants
+from audio_features import extract_audio_features
 
 if __name__ == '__main__':
-
-    IP_ADDRESS = "127.0.0.1"
-    PORT = 6448
+    
+    SEND_TO_IP = "127.0.0.1"
+    SEND_TO_PORT = 6448
     WEK_INPUT = "/wek/inputs"
 
-    client = udp_client.SimpleUDPClient(IP_ADDRESS, PORT)
-    print(f"OSC client, sending to --> {IP_ADDRESS}:{PORT}")
+    client = udp_client.SimpleUDPClient(SEND_TO_IP, SEND_TO_PORT)
+    print(f"OSC Audio client, sending to --> {SEND_TO_IP}:{SEND_TO_PORT}")
 
     p = pyaudio.PyAudio()
 
@@ -22,11 +22,14 @@ if __name__ == '__main__':
     CHANNELS = 1                    # 1 channel
     CHUNK = 2**12                   # 2**12 samples for buffer
 
+    np_buffer = np.zeros(CHUNK, dtype=np.int16)
+
     f0min = 150
-    f0max = 5000
+    f0max = 5000    
 
     def callback(in_data, frame_count, time_info, status) -> None :
         global np_buffer
+        
         np_buffer = np.frombuffer(in_data, dtype=np.int16)
         return (None, pyaudio.paContinue)
 
@@ -40,20 +43,18 @@ if __name__ == '__main__':
         stream_callback=callback
         )
     
-    np_buffer = np.empty(CHUNK, dtype=np.int16)
+    try:
+        while len(np_buffer) > 0:
+            stream.start_stream()
+            
+            formants = extract_audio_features(np_buffer, FS, CHUNK, f0min, f0max)
+            
+            client.send_message(WEK_INPUT, formants)
+            
+            print(f"{formants}", end="\r")
 
-    while KeyboardInterrupt != True and stream.is_active():
-        stream.start_stream()
-        
-        # np_buffer = np.frombuffer(stream.read(CHUNK), dtype=np.int16)
-        formants = detect_formants(np_buffer, FS, CHUNK, f0min, f0max)
-        
-        client.send_message(WEK_INPUT, formants)
-        
-        print(f"{formants}", end="\r")
-    
-    else:
-        print("Program stopped.")
+    except KeyboardInterrupt:
+        print("\nServer has been stopped by the user.")
         stream.stop_stream()
         stream.close()
         p.terminate()

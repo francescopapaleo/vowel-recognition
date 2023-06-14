@@ -1,0 +1,25 @@
+@relation dataset
+
+@attribute ID numeric
+@attribute Time date 'yyyy/MM/dd HH:mm:ss:SSS'
+@attribute 'Training round' numeric
+@attribute f1 numeric
+@attribute f2 numeric
+@attribute f3 numeric
+@attribute f4 numeric
+@attribute loudness numeric
+@attribute mouth-width numeric
+@attribute mouth-height numeric
+@attribute eyebrow-left numeric
+@attribute eyebrow-right numeric
+@attribute eye-left numeric
+@attribute eye-right numeric
+@attribute jaw numeric
+@attribute nostrils numeric
+@attribute a numeric
+@attribute e numeric
+@attribute i numeric
+@attribute o numeric
+@attribute u numeric
+
+@data
