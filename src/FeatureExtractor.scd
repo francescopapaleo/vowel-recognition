@@ -9,7 +9,7 @@ x = Task.new({
 	~vowelO = [900, 580]; // O
 	~vowelU = [780, 290]; // U
 	"fatto".postln;
-	// PREPARE OUTPUT NETWORK FRANCESCO
+	// OSC OUTPUT
 	~outputIP = "localhost";
 	~outputPort = 8339;
 	~outputNet = NetAddr.new(~outputIP, ~outputPort);

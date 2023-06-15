@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<WekiInputHelperFileData>
+  <oscReceivePort>6448</oscReceivePort>
+  <oscSendPort>6449</oscSendPort>
+  <sendHostname>localhost</sendHostname>
+  <sendOscMessage>/wek/inputs</sendOscMessage>
+  <inputs>
+    <oscMessage>/wek/inputs</oscMessage>
+    <numInputs>7</numInputs>
+    <groupName>Inputs</groupName>
+    <inputNames>
+      <string>inputs_1</string>
+      <string>inputs_2</string>
+      <string>inputs_3</string>
+      <string>inputs_4</string>
+      <string>inputs_5</string>
+      <string>inputs_6</string>
+      <string>inputs_7</string>
+    </inputNames>
+  </inputs>
+  <outputs>
+    <outputs class="linked-list">
+      <wekiinputhelper.Modifiers.ExpressionInput>
+        <name>expression2</name>
+        <expression class="expr.BinaryExpr">
+          <variablesUsed>
+            <string>inputs_6</string>
+            <string>inputs_7</string>
+          </variablesUsed>
+          <rator>2</rator>
+          <rand0 class="expr.Variable">
+            <name>inputs_6</name>
+            <val>15.865819931030273</val>
+          </rand0>
+          <rand1 class="expr.Variable">
+            <name>inputs_7</name>
+            <val>1.291581153869629</val>
+          </rand1>
+        </expression>
+        <variables>
+          <expr.Variable reference="../../expression/rand0"/>
+          <expr.Variable reference="../../expression/rand1"/>
+        </variables>
+        <indexedVariables>
+          <wekiinputhelper.Modifiers.IndexedVar>
+            <originalVariable>inputs_6</originalVariable>
+            <unindexedName>inputs_6</unindexedName>
+            <delay>0</delay>
+          </wekiinputhelper.Modifiers.IndexedVar>
+          <wekiinputhelper.Modifiers.IndexedVar>
+            <originalVariable>inputs_7</originalVariable>
+            <unindexedName>inputs_7</unindexedName>
+            <delay>0</delay>
+          </wekiinputhelper.Modifiers.IndexedVar>
+        </indexedVariables>
+        <indexes>
+          <int>5</int>
+          <int>6</int>
+        </indexes>
+        <originalString>inputs_6 * inputs_7</originalString>
+        <buffersForInputs>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+        </buffersForInputs>
+      </wekiinputhelper.Modifiers.ExpressionInput>
+      <wekiinputhelper.Modifiers.ExpressionInput>
+        <name>expression1</name>
+        <expression class="expr.BinaryExpr">
+          <variablesUsed>
+            <string>inputs_6</string>
+            <string>inputs_7</string>
+          </variablesUsed>
+          <rator>0</rator>
+          <rand0 class="expr.Variable" reference="../../../wekiinputhelper.Modifiers.ExpressionInput/expression/rand0"/>
+          <rand1 class="expr.Variable" reference="../../../wekiinputhelper.Modifiers.ExpressionInput/expression/rand1"/>
+        </expression>
+        <variables>
+          <expr.Variable reference="../../../wekiinputhelper.Modifiers.ExpressionInput/expression/rand0"/>
+          <expr.Variable reference="../../../wekiinputhelper.Modifiers.ExpressionInput/expression/rand1"/>
+        </variables>
+        <indexedVariables>
+          <wekiinputhelper.Modifiers.IndexedVar>
+            <originalVariable>inputs_6</originalVariable>
+            <unindexedName>inputs_6</unindexedName>
+            <delay>0</delay>
+          </wekiinputhelper.Modifiers.IndexedVar>
+          <wekiinputhelper.Modifiers.IndexedVar>
+            <originalVariable>inputs_7</originalVariable>
+            <unindexedName>inputs_7</unindexedName>
+            <delay>0</delay>
+          </wekiinputhelper.Modifiers.IndexedVar>
+        </indexedVariables>
+        <indexes>
+          <int>5</int>
+          <int>6</int>
+        </indexes>
+        <originalString>inputs_6+inputs_7</originalString>
+        <buffersForInputs>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+          <wekiinputhelper.Modifiers.CircularBuffer>
+            <length>1</length>
+          </wekiinputhelper.Modifiers.CircularBuffer>
+        </buffersForInputs>
+      </wekiinputhelper.Modifiers.ExpressionInput>
+    </outputs>
+    <numOutputTypes>2</numOutputTypes>
+    <dimensionality>2</dimensionality>
+    <hasDependencies>false</hasDependencies>
+  </outputs>
+  <inputTriggerer class="wekiinputhelper.TriggerOnReceive">
+    <c>
+      <type>NONE</type>
+      <howLong>ONCE</howLong>
+      <index>0</index>
+      <val>0.0</val>
+      <appliesTo>INPUT</appliesTo>
+    </c>
+  </inputTriggerer>
+  <isSendingOriginalInputs>true</isSendingOriginalInputs>
+</WekiInputHelperFileData>

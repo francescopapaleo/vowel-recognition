@@ -23,6 +23,9 @@ audio feature extraction                                        mouth gesture ex
                                         |
                                        OSC
                                         |
+                                Wekinator Input Helper
+                                        |
+                                        |
                                 Wekinator Classifier
                                 (Vowels recognition)
                                         |
@@ -37,13 +40,15 @@ audio feature extraction                                        mouth gesture ex
 
 The purpose of this project is to create a working infra-structure that could support language teaching applications.
 
-For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /i/, /o/, /u/
+For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /i/, /o/, /u/.
 
 ## Run this code
 
-1. install Wekinator
+1. install Wekinator and the Wekinator Input Helper
 
 1. install FaceOSC (optional)
+
+1. install SuperCollider
 
 1. run from terminal:
 
@@ -52,28 +57,37 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
 
     cd src
 
-    python3 main.py
+    python3 audio_video_server.py
     ```
 
-1. open Wekinator > File > Open > [project file](./AudioVideoClassifier/Classifier13in5out.wekproj)
+1. open Wekinator > File > Open > [project file](./DemoClassifier/)
 
 1. run the pre-trained model
+
+## FaceOSC Keyboard controls
+
+```bash
+r - reset the face tracker
+m - toggle face mesh drawing
+g - toggle gui's visibility
+p - pause/unpause (only works with movie source)
+up/down - increase/decrease movie playback speed (only works with movie source)
+```
 
 ## Folder Structure
 
 ```tree
     .
-    ├── AudioVideoClassifier
+    ├── assets
+    ├── AVclassifier
     │   ├── current
     │   │   └── models
     │   └── saved
-    ├── SuperCollider
-    │   └── Classifier4in5out
-    │       ├── current
-    │       │   └── models
-    │       └── saved
-    ├── __pycache__
-    ├── assets
     └── src
-        └── __pycache__
+        ├── audio_osc.py
+        ├── audio_features.py
+        ├── audio_video_server.py
+        ├── FeatureExtractor.scd
+        ├── training_GUI.amxd
+        └── video_osc.py
 ```

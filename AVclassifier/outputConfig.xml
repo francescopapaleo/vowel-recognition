@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <OSCOutputGroup>
   <oscMessage>/wek/outputs</oscMessage>
-  <hostName>localhost</hostName>
-  <outputPort>12000</outputPort>
+  <hostName>192.168.43.169</hostName>
+  <outputPort>9000</outputPort>
   <outputs class="linked-list">
     <wekimini.osc.OSCNumericOutput>
       <name>outputs-1</name>

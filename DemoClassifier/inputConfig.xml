@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<OSCInputGroup>
+  <oscMessage>/wek/inputs</oscMessage>
+  <numInputs>9</numInputs>
+  <groupName>Inputs</groupName>
+  <inputNames>
+    <string>rms-A</string>
+    <string>rms-E</string>
+    <string>rms-I</string>
+    <string>rms-O</string>
+    <string>rms-U</string>
+    <string>mouth-w</string>
+    <string>mouth-h</string>
+    <string>expr1</string>
+    <string>expr2</string>
+  </inputNames>
+</OSCInputGroup>
