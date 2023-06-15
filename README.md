@@ -12,13 +12,18 @@ This project is a *proof-of-concept* for a vowel recognition system based on mou
 The system is based on the following steps:
 
 ```tree
-audio-in (Audio input captured with Python)                     FaceOSC (Face tracking)
+  audio-in                                                        FaceOSC (Face tracking)
     |                                                                       |
-audio feature extraction (Python?)                            mouth gesture extraction (Python)
+audio feature extraction                                        mouth gesture extraction 
+(Super Collider)                                                        (FaceOSC)
     |                                                                       |
    OSC                                                                     OSC
     |                                                                       |                                           
-    --------------------------->    Wekinator       <------------------------
+    ---------------------------> Python OSC Server  <------------------------
+                                        |
+                                       OSC
+                                        |
+                                Wekinator Classifier
                                 (Vowels recognition)
                                         |
                                         |
