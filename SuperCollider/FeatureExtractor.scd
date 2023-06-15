@@ -10,8 +10,8 @@ x = Task.new({
 	~vowelU = [780, 290]; // U
 	"fatto".postln;
 	// PREPARE OUTPUT NETWORK FRANCESCO
-	~outputIP = "127.0.0.1";
-	~outputPort = 6448;
+	~outputIP = "localhost";
+	~outputPort = 8339;
 	~outputNet = NetAddr.new(~outputIP, ~outputPort);
 	~arrayOSC = [0.0, 0.0, 0.0, 0.0, 0.0];
 	~arrayOSCounter = 0;
@@ -24,7 +24,7 @@ x = Task.new({
 		{~arrayOSCounter==2} {~arrayOSC[1] = value}
 		{~arrayOSCounter==3} {~arrayOSC[2] = value}
 		{~arrayOSCounter==4} {~arrayOSC[3] = value}
-		{~arrayOSCounter==0} {~arrayOSC[4] = value; ~outputNet.sendMsg("/wek/inputs", ~arrayOSC[0], ~arrayOSC[1], ~arrayOSC[2], ~arrayOSC[3], ~arrayOSC[4]); ~arrayOSC.postln};
+		{~arrayOSCounter==0} {~arrayOSC[4] = value; ~outputNet.sendMsg("/audio", ~arrayOSC[0], ~arrayOSC[1], ~arrayOSC[2], ~arrayOSC[3], ~arrayOSC[4]); ~arrayOSC.postln};
 
 	},'/tr', s.addr);
 

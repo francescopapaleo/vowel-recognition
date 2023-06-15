@@ -5,20 +5,22 @@ from typing import List
 
 import parselmouth
 from parselmouth.praat import call
+import librosa
 
 def extract_audio_features(buffer, sample_rate, frames_per_buffer, f0min, f0max) -> List[float]: 
-    
+    # buffer = librosa.util.normalize(buffer)
+
     sound = parselmouth.Sound(buffer, sampling_frequency=sample_rate)
-    
-    formants = sound.to_formant_burg(time_step=frames_per_buffer, max_number_of_formants=4)
+
+    time_step = frames_per_buffer 
+    formants = sound.to_formant_burg(time_step=time_step, max_number_of_formants=4)
     
     pointProcess = call(sound, "To PointProcess (periodic, cc)", f0min, f0max)
     numPoints = call(pointProcess, "Get number of points")
         
     intensity = sound.to_intensity()
     loudness = intensity.get_average(intensity.end_time,intensity.start_time,'DB')
-    
-
+        
     f1_list = []
     f2_list = []
     f3_list = []

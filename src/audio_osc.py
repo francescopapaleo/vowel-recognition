@@ -18,7 +18,7 @@ if __name__ == '__main__':
     p = pyaudio.PyAudio()
 
     FORMAT = pyaudio.paInt16        # 16-bit resolution
-    FS = 16000                      # Sampling rate
+    FS = 48000                      # Sampling rate
     CHANNELS = 1                    # 1 channel
     CHUNK = 2**12                   # 2**12 samples for buffer
 
