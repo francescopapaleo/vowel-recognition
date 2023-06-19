@@ -2,7 +2,7 @@
 
 ***Authors: Francesco Papaleo, Tommaso Settimi, Chris Morse***
 
-Sound Communication - Master in Sound and Music Computing
+Final Project for the Sound Communication course - Master in Sound and Music Computing
 
 Universitat Pompeu Fabra, Barcelona
 
@@ -46,9 +46,11 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
 
 1. install Wekinator and the Wekinator Input Helper
 
-1. install FaceOSC (optional)
+1. install [FaceOSC](https://github.com/kylemcdonald/ofxFaceTracker) (optional)
 
-1. install SuperCollider
+1. install [SuperCollider](https://supercollider.github.io/)
+
+1. install [Max / MSP](https://cycling74.com)
 
 1. run from terminal:
 
@@ -60,7 +62,13 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
     python3 audio_video_server.py
     ```
 
-1. open Wekinator > File > Open > [project file](./DemoClassifier/)
+1. open SuperCollider > File > Open > [script](./src/FeatureExtractor.scd)
+
+1. launch FaceOSC (optional)
+
+1. open Max / MSP > File > Open > [patch](./src/training_GUI.amxd)
+
+1. open Wekinator > File > Open > [project file](./DemoClassifier/DemoSession.wekproj)
 
 1. run the pre-trained model
 
@@ -87,16 +95,17 @@ These script are optional and are not required to run the main project.
 
 ```tree
     .
-    ├── assets
-    ├── AVclassifier
+    ├── assets                              # screenshots and slides of the project's presentation
+    ├── Democlassifier                      # pre-trained model for Wekinator
     │   ├── current
     │   │   └── models
     │   └── saved
-    └── src
-        ├── audio_osc.py
-        ├── audio_features.py
-        ├── audio_video_server.py
-        ├── FeatureExtractor.scd
-        ├── training_GUI.amxd
-        └── video_osc.py
+    └── src                                 # source code
+        ├── audio_osc.py                    # calls formants_extractor and sends audio features to Wekinator
+        ├── audio_video_server.py           # sends audio and video features to Wekinator via OSC  
+        ├── FeatureExtractor.scd            # SuperCollider script for audio feature extraction
+        ├── formants_extractor.py           # extract formants from audio files with Praat-Parselmouth
+        ├── MonitorOSC.maxpat               # Max patch for monitoring OSC messages and testing the project
+        ├── training_GUI.amxd               # Max patch for the training of vowel sounds
+        └── video_osc.py                    # sends mouth gesture features to Wekinator
 ```
