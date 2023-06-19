@@ -4,7 +4,7 @@ import pyaudio
 import numpy as np
 from pythonosc import udp_client
 
-from audio_features import extract_audio_features
+from formant_extractor import extract_formants
 
 if __name__ == '__main__':
     
@@ -47,7 +47,7 @@ if __name__ == '__main__':
         while len(np_buffer) > 0:
             stream.start_stream()
             
-            audio_features = extract_audio_features(np_buffer, FS, CHUNK, f0min, f0max)
+            audio_features = extract_formants(np_buffer, FS, CHUNK, f0min, f0max)
             
             client.send_message(WEK_INPUT, audio_features)
             

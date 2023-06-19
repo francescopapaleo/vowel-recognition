@@ -74,6 +74,15 @@ p - pause/unpause (only works with movie source)
 up/down - increase/decrease movie playback speed (only works with movie source)
 ```
 
+## Other scripts in python
+
+For demonstration purposes we provide some scripts that can be used to extract audio and video features from audio files and live audio/video input.
+These script are optional and are not required to run the main project.
+
+- [audio_osc.py](./src/audio_osc.py): sends audio features to Wekinator
+- [formants_extractor.py](./src/formants_extractor.py): extract formants from audio files with Praat-Parselmouth
+- [video_osc.py](./src/video_osc.py): sends mouth gesture features to Wekinator
+
 ## Folder Structure
 
 ```tree
