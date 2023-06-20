@@ -44,7 +44,7 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
 
 ## Run this code
 
-1. install Wekinator and the Wekinator Input Helper
+1. install [Wekinator](http://www.wekinator.org/downloads/)
 
 1. install [FaceOSC](https://github.com/kylemcdonald/ofxFaceTracker) (optional)
 
@@ -67,6 +67,8 @@ For demonstration purposes, 5 possible vowels sounds are considered: /a/, /e/, /
 1. launch FaceOSC (optional)
 
 1. open Max / MSP > File > Open > [patch](./src/training_GUI.amxd)
+
+1. open Wekinator Input Helper 
 
 1. open Wekinator > File > Open > [project file](./DemoClassifier/DemoSession.wekproj)
 

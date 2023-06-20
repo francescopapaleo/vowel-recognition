@@ -26,6 +26,11 @@ def audio_handler(unused_addr, *args):
 def video_handler(addr, *args):
     global new_video_msg
     new_video_msg[addr] = args[0] if args else 0.0
+    width = new_video_msg.get("/gesture/mouth/width", 0)
+    height = new_video_msg.get("/gesture/mouth/height", 0)
+    new_video_msg["/gesture/mouth/area"] = width * height
+    new_video_msg["/gesture/mouth/sum"] = width + height
+
 
 def main():
     disp = dispatcher.Dispatcher()
